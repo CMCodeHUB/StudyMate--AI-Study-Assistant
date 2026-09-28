@@ -1,0 +1,17 @@
+Object-Oriented Programming — Quick Notes
+
+Encapsulation: Bundling data and the methods that operate on it into a single unit
+(class), and restricting direct access to some of an object's components.
+
+Abstraction: Hiding complex implementation details and exposing only the necessary
+parts of an object through a simplified interface.
+
+Inheritance: A mechanism where a new class (child/derived) acquires properties and
+behaviors of an existing class (parent/base), enabling code reuse.
+
+Polymorphism: The ability of different classes to be treated as instances of the same
+parent class, typically through method overriding (runtime) or overloading (compile-time).
+
+SOLID Principles: Single Responsibility, Open/Closed, Liskov Substitution, Interface
+Segregation, and Dependency Inversion — five design guidelines for maintainable,
+extensible object-oriented code.

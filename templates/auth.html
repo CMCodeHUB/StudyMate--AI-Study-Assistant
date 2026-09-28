@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#ffffff" />
+<title>{{ "Create your account" if mode == "signup" else "Log in" }} · StudyMate</title>
+
+<!-- Apply saved / system theme before first paint to avoid a flash -->
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem("studymate-theme");
+      var theme = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+<script src="{{ url_for('static', filename='auth.js') }}" defer></script>
+</head>
+<body class="auth-body">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<main class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <span class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#i-spark"/></svg></span>
+      <span class="brand-name">StudyMate</span>
+    </div>
+
+    <h1>{{ "Create your account" if mode == "signup" else "Welcome back" }}</h1>
+    <p class="auth-sub">
+      {% if mode == "signup" %}Save your study tasks and pick up where you left off.
+      {% else %}Log in to see your study tasks and keep chatting.{% endif %}
+    </p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <p class="auth-notice" role="status">{{ messages[0] }}</p>
+      {% endif %}
+    {% endwith %}
+
+    {% if errors.form %}
+      <p class="auth-error-banner" role="alert">{{ errors.form }}</p>
+    {% endif %}
+
+    <form method="post" class="auth-form" novalidate>
+      {% if mode == "signup" %}
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" maxlength="60"
+               value="{{ form.name or '' }}" required autofocus
+               {% if errors.name %}aria-invalid="true" aria-describedby="name-err"{% endif %} />
+        {% if errors.name %}<p class="field-error" id="name-err">{{ errors.name }}</p>{% endif %}
+      </div>
+      {% endif %}
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" maxlength="254"
+               value="{{ form.email or '' }}" required {% if mode == "login" %}autofocus{% endif %}
+               {% if errors.email %}aria-invalid="true" aria-describedby="email-err"{% endif %} />
+        {% if errors.email %}<p class="field-error" id="email-err">{{ errors.email }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="password-wrap">
+          <input id="password" name="password" type="password"
+                 autocomplete="{{ 'new-password' if mode == 'signup' else 'current-password' }}"
+                 maxlength="128" required
+                 {% if mode == "signup" %}minlength="8" aria-describedby="pw-hint{% if errors.password %} pw-err{% endif %}"{% endif %}
+                 {% if errors.password %}aria-invalid="true"{% endif %} />
+          <button type="button" class="pw-toggle" data-target="password" aria-label="Show password">Show</button>
+        </div>
+        {% if mode == "signup" %}<p class="field-hint" id="pw-hint">At least 8 characters.</p>{% endif %}
+        {% if errors.password %}<p class="field-error" id="pw-err">{{ errors.password }}</p>{% endif %}
+      </div>
+
+      {% if mode == "signup" %}
+      <div class="field">
+        <label for="confirm">Confirm password</label>
+        <div class="password-wrap">
+          <input id="confirm" name="confirm" type="password" autocomplete="new-password"
+                 maxlength="128" required
+                 {% if errors.confirm %}aria-invalid="true" aria-describedby="confirm-err"{% endif %} />
+          <button type="button" class="pw-toggle" data-target="confirm" aria-label="Show password">Show</button>
+        </div>
+        {% if errors.confirm %}<p class="field-error" id="confirm-err">{{ errors.confirm }}</p>{% endif %}
+      </div>
+      {% endif %}
+
+      <button type="submit" class="auth-submit">
+        {{ "Create account" if mode == "signup" else "Log in" }}
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      {% if mode == "signup" %}
+        Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+      {% else %}
+        New to StudyMate? <a href="{{ url_for('signup') }}">Create an account</a>
+      {% endif %}
+    </p>
+  </div>
+</main>
+
+</body>
+</html>

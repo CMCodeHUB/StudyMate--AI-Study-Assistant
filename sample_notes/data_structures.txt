@@ -1,0 +1,21 @@
+Data Structures — Quick Notes
+
+Arrays: Fixed-size, contiguous memory, O(1) access by index, O(n) insertion/deletion
+in the worst case since elements must be shifted.
+
+Linked Lists: Nodes connected via pointers. O(1) insertion/deletion at the head,
+O(n) access since traversal is required. Useful when frequent insertions/deletions
+are needed and random access isn't important.
+
+Stacks: LIFO (Last In, First Out) structure. Core operations push and pop are O(1).
+Used in function call management, undo features, and expression evaluation.
+
+Queues: FIFO (First In, First Out) structure. Enqueue and dequeue are O(1) with a
+proper implementation (e.g., circular buffer or linked list). Used in task scheduling
+and breadth-first search.
+
+Hash Maps: Average O(1) lookup, insertion, and deletion using a hash function to map
+keys to array indices. Collisions are handled via chaining or open addressing.
+
+Binary Search Trees: O(log n) average-case search, insertion, and deletion when
+balanced. Degrades to O(n) if unbalanced (essentially becomes a linked list).
